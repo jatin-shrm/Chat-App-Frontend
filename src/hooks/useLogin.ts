@@ -27,9 +27,20 @@ export const useLogin = () => {
         password: payload.password,
       });
 
-      // Store token if provided in response
-      if (response?.token) {
-        localStorage.setItem("token", response.token);
+      // Store tokens if provided in response
+      // Server returns access_token and refresh_token in result
+      if (response?.access_token) {
+        localStorage.setItem("token", response.access_token);
+        if (response.refresh_token) {
+          localStorage.setItem("refresh_token", response.refresh_token);
+        }
+        // Store user info if provided
+        if (response.user_id) {
+          localStorage.setItem("user_id", String(response.user_id));
+        }
+        if (response.user) {
+          localStorage.setItem("user", response.user);
+        }
       }
 
       return response;

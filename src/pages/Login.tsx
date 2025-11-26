@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 import type { LoginPayload } from "../hooks/useLogin";
 
 function Login() {
   const { login, loading, error } = useLogin();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -17,7 +19,11 @@ function Login() {
   });
 
   const onSubmit = async (data: LoginPayload) => {
-    await login(data);
+    const response = await login(data);
+    // Navigate to dashboard on successful login
+    if (response?.access_token) {
+      navigate("/dashboard");
+    }
   };
 
   return (
