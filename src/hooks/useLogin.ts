@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useWebSocket } from "../contexts/WebSocketContext";
 
 export interface LoginPayload {
   username: string;
@@ -6,29 +7,38 @@ export interface LoginPayload {
 }
 
 export const useLogin = () => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { sendRequest, isConnected } = useWebSocket();
 
-    const login = async (payload: LoginPayload) => {
-        try{
-            setLoading(true);
-            setError(null);
-            const response = await fakeLoginApi(payload);
-            return response;
-        }
-        catch (err) {
-            setError("Login failed. Please try again.");
-            return null;
-        }
-        finally {
-            setLoading(false);
-        }
-    };
-    return { login, loading, error };
-}
+  const login = async (payload: LoginPayload) => {
+    try {
+      if (!isConnected) {
+        setError("Not connected to server. Please wait...");
+        return null;
+      }
 
-const fakeLoginApi = async (data: LoginPayload) => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve({ status: "ok", user: data.username }), 500);
-  });
+      setLoading(true);
+      setError(null);
+
+      // Send JSON-RPC 2.0 login request
+      const response = await sendRequest("login", {
+        username: payload.username,
+        password: payload.password,
+      });
+
+      // Store token if provided in response
+      if (response?.token) {
+        localStorage.setItem("token", response.token);
+      }
+
+      return response;
+    } catch (err: any) {
+      setError(err.message || "Login failed. Please try again.");
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { login, loading, error };
 };
