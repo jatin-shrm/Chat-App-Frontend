@@ -1,8 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useLogin } from "../hooks/useLogin";
 import type { LoginPayload } from "../hooks/useLogin";
-import { useEffect } from "react";
-import { ws } from "../services/websocket";
 
 function Login() {
   const { login, loading, error } = useLogin();
@@ -68,6 +66,15 @@ function Login() {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
+          <p className="text-center text-sm text-gray-600 mt-4">
+            Don't have an account?{" "}
+            <a
+              href="/register"
+              className="text-blue-600 font-medium hover:underline"
+            >
+              Click here
+            </a>
+          </p>
         </form>
       </div>
     </div>

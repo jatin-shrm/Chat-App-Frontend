@@ -84,6 +84,15 @@ function Register() {
             >
               {loading ? "Registering..." : "Register"}
             </button>
+            <p className="text-center text-sm text-gray-600 mt-4">
+              Already have an account?{" "}
+              <a
+                href="/login"
+                className="text-blue-600 font-medium hover:underline"
+              >
+                Click here
+              </a>
+            </p>
           </form>
         </div>
       </div>
