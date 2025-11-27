@@ -1,10 +1,11 @@
 import {useForm} from "react-hook-form";
 import {useRegister} from "../hooks/useRegister";
 import type {RegisterPayload} from "../hooks/useRegister";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
     const { register: registerUser, loading, error } = useRegister();
-
+    const navigate = useNavigate();
     const {
       register,
       handleSubmit,
@@ -19,7 +20,10 @@ function Register() {
     });
 
     const onSubmit = async (data: RegisterPayload) => {
-      await registerUser(data);
+      const response = await registerUser(data);
+      if (response?.message === "Registration successful") {
+        navigate("/login");
+      }
     };
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
