@@ -41,6 +41,10 @@ export const useLogin = () => {
         if (response.user) {
           localStorage.setItem("user", response.user);
         }
+        // Store name if provided (for navbar display after page refresh)
+        if (response.name) {
+          localStorage.setItem("name", response.name);
+        }
       }
 
       return response;

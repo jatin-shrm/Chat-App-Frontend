@@ -2,11 +2,12 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 import type { LoginPayload } from "../hooks/useLogin";
+import { useUser } from "../contexts/UserContext";
 
 function Login() {
   const { login, loading, error } = useLogin();
   const navigate = useNavigate();
-
+  const { setUser } = useUser(); // Step 2: Use the hook instead of useContext directly
   const {
     register,
     handleSubmit,
@@ -20,8 +21,17 @@ function Login() {
 
   const onSubmit = async (data: LoginPayload) => {
     const response = await login(data);
-    // Navigate to dashboard on successful login
+    // Step 3: Update user context with full response data
     if (response?.access_token) {
+      // Store complete user object in context (not just username)
+      setUser({
+        user_id: response.user_id,
+        user: response.user,
+        name: response.name,
+        email: response.email,
+        access_token: response.access_token,
+        refresh_token: response.refresh_token,
+      });
       navigate("/dashboard");
     }
   };
