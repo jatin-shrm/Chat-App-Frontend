@@ -1,13 +1,23 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "../hooks/useLogin";
-import type { LoginPayload } from "../hooks/useLogin";
-import { useUser } from "../contexts/UserContext";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch } from "../store";
+import { loginRequest } from "../features/auth/authSlice";
+import {
+  selectAuthLoading,
+  selectAuthError,
+  selectIsAuthenticated,
+} from "../features/auth/authSelectors";
+import type { LoginPayload } from "../features/auth/authTypes";
+import { useEffect } from "react";
 
 function Login() {
-  const { login, loading, error } = useLogin();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { setUser } = useUser(); // Step 2: Use the hook instead of useContext directly
+  const loading = useSelector(selectAuthLoading);
+  const error = useSelector(selectAuthError);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
   const {
     register,
     handleSubmit,
@@ -19,21 +29,16 @@ function Login() {
     },
   });
 
-  const onSubmit = async (data: LoginPayload) => {
-    const response = await login(data);
-    // Step 3: Update user context with full response data
-    if (response?.access_token) {
-      // Store complete user object in context (not just username)
-      setUser({
-        user_id: response.user_id,
-        user: response.user,
-        name: response.name,
-        email: response.email,
-        access_token: response.access_token,
-        refresh_token: response.refresh_token,
-      });
+  // Navigate to dashboard when authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
       navigate("/dashboard");
     }
+  }, [isAuthenticated, navigate]);
+
+  const onSubmit = async (data: LoginPayload) => {
+    // Dispatch login request - the epic will handle the async logic
+    dispatch(loginRequest(data));
   };
 
   return (

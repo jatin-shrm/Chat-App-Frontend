@@ -1,18 +1,16 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./router/AppRoutes";
-import { WebSocketProvider } from "./contexts/WebSocketContext";
-import { UserProvider } from "./contexts/UserContext";
+import { AuthInitializer } from "./components/AuthInitializer";
+import { WebSocketInitializer } from "./components/WebSocketInitializer";
 
 function App() {
   return (
     <div>
-      <WebSocketProvider>
-        <UserProvider>
-          <Router>
-            <AppRoutes />
-          </Router>
-        </UserProvider>
-      </WebSocketProvider>
+      <WebSocketInitializer />
+      <AuthInitializer />
+      <Router>
+        <AppRoutes />
+      </Router>
     </div>
   );
 }

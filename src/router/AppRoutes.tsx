@@ -1,13 +1,18 @@
 import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import PrivateRoute from "./PrivateRoute";
-import { useWebSocket } from "../contexts/WebSocketContext";
+import {
+  selectConnectionState,
+  selectIsConnected,
+} from "../features/websocket/websocketSelectors";
 
 // Wrapper component to conditionally show Login based on WebSocket connection
 function LoginWithConnectionCheck() {
-  const { connectionState, isConnected } = useWebSocket();
+  const connectionState = useSelector(selectConnectionState);
+  const isConnected = useSelector(selectIsConnected);
 
   if (connectionState === "connecting") {
     return (
