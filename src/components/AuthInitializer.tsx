@@ -23,8 +23,6 @@ export function AuthInitializer() {
         email: localStorage.getItem("email") || undefined,
         profilePicUrl: localStorage.getItem("profilePicUrl") || profilePic,
       };
-
-      // Dispatch restoreUser action to update Redux state
       dispatch(restoreUser(userData));
     }
   }, [dispatch]);

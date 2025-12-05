@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
 
 
 
@@ -14,7 +13,7 @@ function Dashboard() {
       {/* MAIN SECTION */}
       <div className="flex flex-1 overflow-hidden">
         {/* SIDEBAR */}
-        <Sidebar />
+        {/* <Sidebar /> */}
 
         {/* PAGE CONTENT */}
         <div className="flex-1 p-6 overflow-y-auto bg-white">

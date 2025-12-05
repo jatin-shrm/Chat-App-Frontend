@@ -5,6 +5,7 @@ import { logout } from "../features/auth/authSlice";
 import { selectUser } from "../features/auth/authSelectors";
 import Avatar from "@mui/material/Avatar";
 import profilePic from "../assets/1763278553063.jpeg";
+import UserMenu from "./UserMenu";
 
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,6 +20,25 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const handleProfile = () => {
+    // Profile action - inactive for now
+    console.log("Profile clicked - coming soon");
+  };
+
+  const menuOptions = [
+    {
+      label: "Profile",
+      onClick: handleProfile,
+      disabled: true, // Inactive for now
+      className: "opacity-50",
+    },
+    {
+      label: "Logout",
+      onClick: handleLogout,
+      className: "text-red-600 hover:bg-red-50",
+    },
+  ];
+
   return (
     <div className="h-16 bg-slate-800 text-white flex items-center justify-between px-6 shadow-md sticky top-0 z-50">
       <h1 className="text-xl font-semibold">My Dashboard</h1>
@@ -29,18 +49,16 @@ const Navbar = () => {
           <span className="font-semibold">
             {capitalize(user.name ?? "User")}
           </span>
-          <Avatar
-            alt={user.name}
-            src={user.profilePicUrl || profilePic}
-            sx={{ width: 32, height: 32 }}
+          <UserMenu
+            trigger={
+              <Avatar
+                alt={user.name}
+                src={user.profilePicUrl || profilePic}
+                sx={{ width: 32, height: 32, cursor: "pointer" }}
+              />
+            }
+            options={menuOptions}
           />
-
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 px-4 py-1 rounded-md"
-          >
-            Logout
-          </button>
         </div>
       )}
     </div>
