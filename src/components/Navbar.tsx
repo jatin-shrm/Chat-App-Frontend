@@ -40,11 +40,11 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="h-16 bg-slate-800 text-white flex items-center justify-between px-6 shadow-md sticky top-0 z-50">
-      <h1 className="text-xl font-semibold">My Dashboard</h1>
+    <div className="h-16 bg-slate-800 text-white flex items-center px-6 shadow-md sticky top-0 z-50">
+      {/* <h1 className="text-xl font-semibold">My Dashboard</h1> */}
       {/* Step 5: Display user information if available */}
       {user && (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ml-auto">
           <span className="text-sm ml-auto">Welcome,</span>
           <span className="font-semibold">
             {capitalize(user.name ?? "User")}
