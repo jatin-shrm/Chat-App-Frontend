@@ -5,24 +5,13 @@ import { restoreUser } from "../features/auth/authSlice";
 import type { User } from "../features/auth/authTypes";
 import profilePic from "../assets/1763278553063.jpeg";
 
-/**
- * AuthInitializer Component
- *
- * This component runs once on app start to restore user data from localStorage.
- *
- * Why we need this:
- * - When user refreshes the page, Redux state is reset
- * - We need to restore user data from localStorage to Redux
- * - This ensures the user stays logged in after page refresh
- */
+
 export function AuthInitializer() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    // Check if user data exists in localStorage
     const token = localStorage.getItem("token");
     if (token) {
-      // Restore user data from localStorage
       const userData: User = {
         access_token: token,
         refresh_token: localStorage.getItem("refresh_token") || undefined,
