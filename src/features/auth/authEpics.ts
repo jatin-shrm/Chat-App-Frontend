@@ -12,6 +12,7 @@ import {
   logout,
 } from "./authSlice";
 import type { User } from "./authTypes";
+import profilePic from "../../assets/1763278553063.jpeg";
 
 /**
  * Auth Epics
@@ -37,6 +38,9 @@ const saveUserToLocalStorage = (user: User) => {
   if (user.email) {
     localStorage.setItem("email", user.email);
   }
+  if (user.profilePicUrl) {
+    localStorage.setItem("profilePicUrl", user.profilePicUrl);
+  }
 };
 
 // Helper function to clear localStorage
@@ -47,6 +51,7 @@ const clearLocalStorage = () => {
   localStorage.removeItem("user");
   localStorage.removeItem("name");
   localStorage.removeItem("email");
+  localStorage.removeItem("profilePicUrl");
 };
 
 /**
@@ -76,6 +81,7 @@ export const loginEpic: Epic = (action$) => {
                 user: response.user,
                 name: response.name,
                 email: response.email,
+                profilePicUrl: response.profilePicUrl || profilePic,
                 access_token: response.access_token,
                 refresh_token: response.refresh_token,
               };

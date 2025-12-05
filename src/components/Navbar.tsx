@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import type { AppDispatch } from "../store";
 import { logout } from "../features/auth/authSlice";
 import { selectUser } from "../features/auth/authSelectors";
+import Avatar from "@mui/material/Avatar";
+import profilePic from "../assets/1763278553063.jpeg";
 
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -27,6 +29,12 @@ const Navbar = () => {
           <span className="font-semibold">
             {capitalize(user.name ?? "User")}
           </span>
+          <Avatar
+            alt={user.name}
+            src={user.profilePicUrl || profilePic}
+            sx={{ width: 32, height: 32 }}
+          />
+
           <button
             onClick={handleLogout}
             className="bg-red-500 hover:bg-red-600 px-4 py-1 rounded-md"

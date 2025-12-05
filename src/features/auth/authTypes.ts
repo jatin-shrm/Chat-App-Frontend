@@ -9,6 +9,7 @@ export interface User {
   user?: string; // username
   name?: string;
   email?: string;
+  profilePicUrl?: string;
   access_token?: string;
   refresh_token?: string;
 }

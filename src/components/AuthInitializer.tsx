@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../store";
 import { restoreUser } from "../features/auth/authSlice";
 import type { User } from "../features/auth/authTypes";
+import profilePic from "../assets/1763278553063.jpeg";
 
 /**
  * AuthInitializer Component
@@ -31,6 +32,7 @@ export function AuthInitializer() {
         user: localStorage.getItem("user") || undefined,
         name: localStorage.getItem("name") || undefined,
         email: localStorage.getItem("email") || undefined,
+        profilePicUrl: localStorage.getItem("profilePicUrl") || profilePic,
       };
 
       // Dispatch restoreUser action to update Redux state
